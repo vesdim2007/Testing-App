@@ -1,0 +1,22 @@
+{
+  "name": "bet",
+  "version": "1.0.0",
+  "description": "test project",
+  "main": "server.js",
+  "scripts": {
+    "server": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "bet-project"
+  },
+  "author": "Vesy Dimitrova",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "express-ip": "^1.0.3",
+    "request": "^2.88.0",
+    "tor-request": "^3.1.0"
+  }
+}
