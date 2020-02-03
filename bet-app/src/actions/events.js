@@ -7,7 +7,9 @@ export const getEvents = (id) => {
         .then(res => {
             const {sports} = JSON.parse(res.data)
             const events = sports.filter(sport => sport.id == id)[0].comp
-            dispatch({type: "GET_EVENTS", payload: events})
+            const ev_array = events.map(ev => ev.events).flat()
+            ev_array.sort((a,b) => (a.pos > b.pos) ? 1 : ((b.pos > a.pos) ? -1 : 0));
+            dispatch({type: "GET_EVENTS", payload: ev_array})
         })
         .catch(err => console.log(err))
     }

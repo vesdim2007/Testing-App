@@ -32,13 +32,13 @@ const Events = (props) => {
         if (isMounted.current) {
             const { match } = props;  
             const id = match ? match.params.sport_id : null;
-            if (id) {
-            dispatch(getEvents(id))
-            setSportData(() => ({...sportData, loading: true, sport_id: id}))
-            }  
+            if (id && events.length === 0) {
+              dispatch(getEvents(id))
+              setSportData(() => ({...sportData, loading: true, sport_id: id}))
+            }
         }
 
-        if (events && events.length > 0) {
+        if (events.length > 0) {
                 
             setSportData(() => ({...sportData, loading: false, sport_events: events}))
         } 
@@ -49,21 +49,14 @@ const Events = (props) => {
          <h1>All Events </h1>
          <div>
              {loading && <Spinner />}
+             <ul>
              {sport_events.length > 0 && sport_events.map(event => (
-                 <div key={event.id}>
-                 <h3 >
-                   {event.desc}
-                 </h3>
-                 <ul>
-                     {event.events.map(e => (
-                         <li key={e.id} className="sport">
-                             <p>{e.desc}</p>
-                             <Link to={`/sports/${sport_id}/events/${event.id}`} className="btn">Select</Link>
-                         </li>
-                     ))}
-                 </ul>
-                 </div>
-             ))}
+                 <li key={event.id} className="sport">
+                    <p>{event.desc}</p>
+                    <Link to={`/sports/${sport_id}/events/${event.id}`} className="btn">Select</Link>
+                </li>
+            ))}
+             </ul>
          </div>
      </div>
  )
