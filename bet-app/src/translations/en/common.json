@@ -1,0 +1,14 @@
+{
+    "WELCOME": "Welcome to Bet App",
+    "LANGUAGES": "Please select language",
+    "SPORT_TITLE": "Select a sport to see all its events",
+    "SPORT_NAME": "Sport Name",
+    "ACTION": "Select",
+    "NO_SPORTS": "There are no sports to display.",
+    "ALL_SPORTS": "All Sports",
+    "EVENTS": "Events",
+    "ALL_EVENTS": "All Events",
+    "NO_EVENTS": "There are no events to display, please try again.",
+    "ALL_MARKETS": "All Markets",
+    "NO_MARKETS": "There are no markets to display, please try again."
+}

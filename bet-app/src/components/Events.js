@@ -5,6 +5,7 @@ import Spinner from "./Spinner/Spinner"
 import { Link } from 'react-router-dom';
 
 const Events = (props) => {
+    const {t} = props
 
     const {events} = useSelector(state => state.events)
     const dispatch = useDispatch();
@@ -46,17 +47,18 @@ const Events = (props) => {
 
  return (
      <div>
-         <h1>All Events </h1>
+         <h1>{t("ALL_EVENTS")} </h1>
          <div>
              {loading && <Spinner />}
-             <ul>
-             {sport_events.length > 0 && sport_events.map(event => (
+             {sport_events.length > 0 &&<ul>
+             { sport_events.map(event => (
                  <li key={event.id} className="sport">
                     <p>{event.desc}</p>
-                    <Link to={`/sports/${sport_id}/events/${event.id}`} className="btn">Select</Link>
+                    <Link to={`/sports/${sport_id}/events/${event.id}`} className="btn">{t('ACTION')}</Link>
                 </li>
             ))}
-             </ul>
+             </ul>}
+             {!loading && sport_events.length == 0 && <h3>{t("NO_EVENTS")}</h3>}
          </div>
      </div>
  )

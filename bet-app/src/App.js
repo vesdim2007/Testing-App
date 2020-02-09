@@ -1,4 +1,4 @@
-import React  from 'react';
+import React from 'react';
 import {BrowserRouter as Router, Switch} from 'react-router-dom'
 import {Provider} from 'react-redux'
 import PublicRoute from "./router/Route"
@@ -14,7 +14,7 @@ const App = () => {
   return (
     <Provider store={store}>
         <Router>
-          <div className="App">          
+          <div className="container">          
           <Switch> 
             <PublicRoute exact path="/" component={Sports} />
             <PublicRoute exact path="/sports/:sport_id" component={Events} />
@@ -26,4 +26,5 @@ const App = () => {
   );
 }
 
-export default App;
+
+export default App

@@ -1,84 +1,80 @@
-import React  from 'react';
+import React, { useEffect, useState, useRef }  from 'react';
 import {Link} from 'react-router-dom'
-import {connect} from 'react-redux'
+import {useSelector, useDispatch} from 'react-redux'
 import {getSports} from "../actions/sports"
 import Spinner from "./Spinner/Spinner"
 
+const Sports = (props) => {
+    const {t} = props
+    const {sports} = useSelector(state => state.sports)
+    const dispatch = useDispatch();
 
-class Sports extends React.Component {
+    const [sportData, setSportData] = useState({
+        sport_id: "",
+        loading: false,
+        sportsList: []
+      });
+    
+    const { sportsList, sport_id, loading} = sportData;
 
-    state = {
-        sports: [],
-        sport_id: null,
-        loading: false
-    }
+    const useIsMounted = () => {
+        const isMounted = useRef(false);
+        useEffect(() => {
+          isMounted.current = true;
+          return () => (isMounted.current = false);
+        }, []);
+        return isMounted;
+      };
 
-    componentDidMount() {
-        this.setState({loading: true})
-        this.props.getSports()
-    }
+      const isMounted = useIsMounted();
+     
+      useEffect(() => {
+        if (isMounted.current) {
+            if(sports.length === 0) {
+                dispatch(getSports())
+                setSportData(() => ({...sportData, loading: true}))
+            }
+        }  
 
-    componentDidUpdate(prevProps) {
-        if (this.props.sports !== prevProps.sports) {
-          this.setState({sports: this.props.sports, loading: false})
-        }
-      }
+        if (sports && sports.length > 0) {
+            setSportData(() => ({...sportData, loading: false, sportsList: sports}))
+        } 
+      }, [sportsList, sports, loading]);
 
-    renderContent = () => {
-        if (this.state.loading) {
-            return (
-                <div>
-                    <Spinner/>
+      const renderSports = (sports) => {
+          return sports.map(sport => (
+            <div key={sport.id} className="sport">
+                <div className="sport_column">
+                    <p>{t('SPORT_NAME')}: <span style={{fontWeight: 700}}>{sport.desc} </span></p>
                 </div>
-            )
-        }
-
-        if (this.state.sports.length > 0) {
-            return (
-                <div>
-                    <h3>Select a sport to see all the its events</h3>
-                {this.state.sports.map(sport => (
-                  <div key={sport.id} className="sport">
-                    <div className="sport_column">
-                      <p>Sport Name: {sport.desc}</p>
-                    </div>
-                    <div className="sport_column">
-                        <p>Events: {sport.comp.length}</p>
-                    </div>
-                    <Link to={`/sports/${sport.id}`} className="btn">Select</Link>
-                  
-                  </div>))}
+                <div className="sport_column">
+                    <p>{t('EVENTS')}: <span style={{fontWeight: 700}}>{sport.comp.length} </span></p>
                 </div>
-            )
-        }
-
-        if (this.state.sports.length == 0) {
-            return (
-                <div>
-                    <h3>There are no sports to display</h3>
-                </div>
-            )
-        }
-    }
-
-    render() {
-        const {sports} = this.state
-        console.log(sports)
-        return (
-            <div className="sports">
-              <h1> All Sports</h1>
-              {this.renderContent()}
+                <Link to={`/sports/${sport.id}`} className="btn">{t('ACTION')}</Link>
             </div>
-          );
+            )
+        )
     }
+
+      return (
+        <div className="sports">
+            {loading && <Spinner/>}
+            <h1> {t('ALL_SPORTS')}</h1>
+            {sportsList.length > 0 && <>
+            <h3>{t('SPORT_TITLE')}</h3>
+            {renderSports(sportsList)}
+            </>}
+           
+            {!loading && sportsList.length == 0 && <div>
+                <h3>{t('NO_SPORTS')}</h3>
+            </div>}
+            
+        </div>
+        );
+    
 }
 
+export default Sports
 
-const mapStateToProps = state => {
-    return {
-        sports: state.sports.sports
-    }
-}
-  
-export default connect (mapStateToProps, 
-    {getSports})(Sports);
+
+

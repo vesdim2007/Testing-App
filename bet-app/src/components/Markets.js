@@ -2,10 +2,9 @@ import React, { useEffect, useState, useRef } from 'react';
 import {useSelector, useDispatch} from 'react-redux'
 import getMarkets from "../actions/markets"
 import Spinner from "./Spinner/Spinner"
-import { Link } from 'react-router-dom';
 
 const Markets = (props) => {
-
+    const {t} = props
     const {markets} = useSelector(state => state.markets)
     const dispatch = useDispatch();
 
@@ -46,20 +45,19 @@ const Markets = (props) => {
         } 
       }, [event_id, event_markets, sport_id, markets, loading]);
 
-    console.log(event_markets)
-
  return (
      <div>
-         <h1>All Markets </h1>
+         <h1>{t("ALL_MARKETS")} </h1>
          {loading && <Spinner />}
-         <ul>
-         {event_markets.length > 0 && event_markets.map(market => (
+         {event_markets.length > 0 && <ul>
+         { event_markets.map(market => (
              <li key={market.id} className="sport">
                  <p>{market.desc}</p>
                 {market.o.map(o => (<p key={o.oid}>{o.d}</p>))}
              </li>
          ))}
-         </ul>
+         </ul>}
+         {!loading && event_markets.length == 0 && <h3>{t("NO_MARKETS")}</h3>}
      </div>
  )
 }

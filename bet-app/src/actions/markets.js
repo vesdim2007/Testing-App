@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-// Get All Events
+// Get All Markets
 export const getMarkets = (sport_id, event_id) => {
     return async(dispatch) => {
         await axios.get(`/api/sports`)
