@@ -1,5 +1,13 @@
 import axios from 'axios'
 
+
+export function saveMarkets(markets) {
+    return {
+      type: "GET_MARKETS",
+      payload: markets,
+    };
+  }
+
 // Get All Markets
 export const getMarkets = (sport_id, event_id) => {
     return async(dispatch) => {
@@ -11,7 +19,7 @@ export const getMarkets = (sport_id, event_id) => {
             const ev_array = events.map(ev => ev.events).flat()
             const markets = ev_array.filter(e => e.id == event_id)[0].markets
             
-            dispatch({type: "GET_MARKETS", payload: markets})
+            dispatch(saveMarkets(markets))
         })
         .catch(err => console.log(err))
     }

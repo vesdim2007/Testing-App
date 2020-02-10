@@ -40,7 +40,7 @@ const Markets = (props) => {
         }
 
         if (markets && markets.length > 0) {
-                
+              console.log(markets)
             setEventData(() => ({...eventData, loading: false, event_markets: markets}))
         } 
       }, [event_id, event_markets, sport_id, markets, loading]);

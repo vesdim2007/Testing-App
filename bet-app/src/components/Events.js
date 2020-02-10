@@ -40,7 +40,7 @@ const Events = (props) => {
         }
 
         if (events.length > 0) {
-                
+            console.log(events)  
             setSportData(() => ({...sportData, loading: false, sport_events: events}))
         } 
       }, [sport_id, sport_events, loading, events]);

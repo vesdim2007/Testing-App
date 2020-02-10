@@ -41,6 +41,12 @@ const Sports = (props) => {
         } 
       }, [sportsList, sports, loading]);
 
+      const getEventsNumber = (comp) => {
+          let count = 0
+          comp.forEach(comp => count = count + comp.events.length)
+          return count
+      }
+
       const renderSports = (sports) => {
           return sports.map(sport => (
             <div key={sport.id} className="sport">
@@ -48,7 +54,7 @@ const Sports = (props) => {
                     <p>{t('SPORT_NAME')}: <span style={{fontWeight: 700}}>{sport.desc} </span></p>
                 </div>
                 <div className="sport_column">
-                    <p>{t('EVENTS')}: <span style={{fontWeight: 700}}>{sport.comp.length} </span></p>
+                    <p>{t('EVENTS')}: <span style={{fontWeight: 700}}>{getEventsNumber(sport.comp)} </span></p>
                 </div>
                 <Link to={`/sports/${sport.id}`} className="btn">{t('ACTION')}</Link>
             </div>
@@ -58,8 +64,9 @@ const Sports = (props) => {
 
       return (
         <div className="sports">
-            {loading && <Spinner/>}
+            
             <h1> {t('ALL_SPORTS')}</h1>
+            {loading && <Spinner/>}
             {sportsList.length > 0 && <>
             <h3>{t('SPORT_TITLE')}</h3>
             {renderSports(sportsList)}
